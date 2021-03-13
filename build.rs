@@ -52,8 +52,10 @@ mod build {
             .file("lame-3.99.5/libmp3lame/vbrquantize.c")
             .file("lame-3.99.5/libmp3lame/VbrTag.c")
             .file("lame-3.99.5/libmp3lame/version.c")
+            .file("lame-3.99.5/libmp3lame/vector/xmm_quantize_sub.c")
             .include("lame-3.99.5/include")
             .include("lame-3.99.5/libmp3lame")
+            .include("lame-3.99.5/libmp3lame/vector")
             .define("HAVE_CONFIG_H", None)
             .define("PIC", None);
 
