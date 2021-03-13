@@ -21,7 +21,7 @@ mod build {
 
 #[cfg(feature = "bundled")]
 mod build {
-    extern crate gcc;
+    extern crate cc;
 
     use std::env;
 
@@ -29,9 +29,10 @@ mod build {
         let target_os = env::var("CARGO_CFG_TARGET_OS").expect("CARGO_CFG_TARGET_OS not set");
         let target_arch = env::var("CARGO_CFG_TARGET_ARCH").expect("CARGO_CFG_TARGET_ARCH not set");
 
-        let mut config = gcc::Config::new();
+        let mut build = cc::Build::new();
 
-        config.file("lame-3.99.5/libmp3lame/bitstream.c")
+        build
+            .file("lame-3.99.5/libmp3lame/bitstream.c")
             .file("lame-3.99.5/libmp3lame/encoder.c")
             .file("lame-3.99.5/libmp3lame/fft.c")
             .file("lame-3.99.5/libmp3lame/gain_analysis.c")
@@ -57,7 +58,8 @@ mod build {
             .define("PIC", None);
 
         if target_os == "windows" {
-            config.define("TAKEHIRO_IEEE754_HACK", None)
+            build
+                .define("TAKEHIRO_IEEE754_HACK", None)
                 .define("FLOAT8", Some("float"))
                 .define("REAL_IS_FLOAT", Some("1"))
                 .define("BS_FORMAT", Some("BINARY"));
@@ -77,8 +79,8 @@ mod build {
             arch => panic!("unsupported arch {}", arch),
         };
 
-        config.include(format!("lame-config/{}/{}", os_config_dir, arch_config_dir));
+        build.include(format!("lame-config/{}/{}", os_config_dir, arch_config_dir));
 
-        config.compile("libmp3lame.a");
+        build.compile("libmp3lame.a");
     }
 }

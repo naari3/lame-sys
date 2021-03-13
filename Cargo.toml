@@ -14,13 +14,13 @@ build = "build.rs"
 
 [features]
 default = []
-bundled = ["gcc"]
+bundled = ["cc"]
 
 [dependencies]
 libc = "0.2.12"
 
 [build-dependencies]
-gcc = { version = "0.3.50", optional = true }
+cc = { version = "1.0.66", optional = true }
 
 [package.metadata.docs.rs]
 features = [ "bundled" ]
